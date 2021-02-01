@@ -3,6 +3,8 @@
 // Define Slave I2C Address
 #define SLAVE_ADDR 9
 
+// Define sensor pins
+
 // Sensor 0
 const int TRIGGER_PIN_0 = 24;
 const int ECHO_PIN_0 = 25;
@@ -61,7 +63,10 @@ void setup() {
 void requestEvent()
 {
   data_val = distance[data_numb];
-
+  
+  /* Before sending data to master,
+  send a specific letter to master to indicate which sensor is going to send data */
+  
   if(flag == 0)
   {
     if(data_numb == 0)
@@ -94,6 +99,10 @@ void requestEvent()
 
   else if(flag == 1)
   {
+  	/* Values over 255 cannot be sent through I2C. 
+	So if a distance exceeds 250, send the exceeding amount by multiplying with -1. 
+	This way, master will detect the situation. */
+	
     if(data_val >= 250)
     {
       extra_val = data_val - 250;
@@ -121,6 +130,8 @@ void requestEvent()
 
 void readDistance()
 {
+  // Sensors measure distances one by one
+  
   digitalWrite(TRIGGER_PIN_0, HIGH);
   delayMicroseconds(1000);
   digitalWrite(TRIGGER_PIN_0, LOW);

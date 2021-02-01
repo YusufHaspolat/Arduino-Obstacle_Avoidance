@@ -40,6 +40,7 @@ void sensor_reading()
   if(Wire.available())
   {
     sensor = Wire.read();
+    // Set array for coming data by checking received letter from slave
     if(sensor == 'a')
     {
       data_numb = 0;
@@ -64,6 +65,7 @@ void sensor_reading()
     else
     {
       main_buffer[data_numb] = sensor;
+      // Checking data if it exceeds 250
       if(main_buffer[data_numb] < 0)
       {
         main_buffer[data_numb] = main_buffer[data_numb] * -1;
@@ -72,6 +74,7 @@ void sensor_reading()
     }
   }
 
+  // Read the measurements of sensor from left to right
   Serial.print(main_buffer[2]);
   Serial.print("\t");
   Serial.print(main_buffer[4]);
@@ -87,12 +90,13 @@ void sensor_reading()
 void loop()
 {
   sensor_reading();
-
+  // Both motors run forward
   left_speed = 300;
   right_speed = -300;
 
   if(front_flag)
   {
+  	// Choose a side to turn against the obstacle ahead
     if (main_buffer[2] < main_buffer[1])
     {
       left_flag = 1;
@@ -102,12 +106,15 @@ void loop()
       right_flag = 1;
     }
   }
-  if (main_buffer[0] < 50 || main_buffer[3] < 50 || main_buffer[4] < 50) //ileride engel var
+  // An obstacle ahead
+  if (main_buffer[0] < 50 || main_buffer[3] < 50 || main_buffer[4] < 50)
   {
     front_flag = 1;
   }
-  else if (main_buffer[1] < 30 && main_buffer[2] < 30) //iki çaprazda da engel var -sıkıştın-
+  // Obstacles on both corners -you're stuck-
+  else if (main_buffer[1] < 30 && main_buffer[2] < 30)
   {
+  	// Determine which side to turn
     if(main_buffer[2] < main_buffer[1])
     {
       trap_flag_r = 1;
@@ -117,21 +124,25 @@ void loop()
       trap_flag_l = 1;
     }
   }
-  else if (main_buffer[1] < 40) //sağ çaprazda engel var
+  // Obstacle on right corner
+  else if (main_buffer[1] < 40)
   {
     right_corn_flag = 1;
   }
-  else if (main_buffer[2] < 40) //sol çaprazda engel var
+  // Obstacle on left corner
+  else if (main_buffer[2] < 40)
   {
     left_corn_flag = 1;
   }
   else 
   {
-    if (front_flag == 1 && main_buffer[0] > 50 && main_buffer[3] > 50 && main_buffer[4] > 50) //ilerideki engel kayboldu
+    // The obstacle ahead is gone
+    if (front_flag == 1 && main_buffer[0] > 50 && main_buffer[3] > 50 && main_buffer[4] > 50)
     {
       front_flag = 0;
     }
   }
+  // Turn untill the obstacle is gone "between the lines 146-205"
   if (right_flag)
   {
     left_speed = 300;
@@ -192,6 +203,7 @@ void loop()
       trap_flag_l = 0;
     }
   }
+  // A button control to run and stop motors
   button_read = digitalRead(button_pin);
   if(button_read == HIGH)
   {
