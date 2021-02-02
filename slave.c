@@ -28,11 +28,11 @@ const int ECHO_PIN_4 = 33;
 // Define return data array, one element per sensor
 int distance[5];
 
-int sure_0;
-int sure_1;
-int sure_2;
-int sure_3;
-int sure_4;
+int time_0;
+int time_1;
+int time_2;
+int time_3;
+int time_4;
 
 static int data_numb = 0;
 static int flag = 0;
@@ -135,32 +135,32 @@ void readDistance()
   digitalWrite(TRIGGER_PIN_0, HIGH);
   delayMicroseconds(1000);
   digitalWrite(TRIGGER_PIN_0, LOW);
-  sure_0 = pulseIn(ECHO_PIN_0, HIGH);
-  distance[0] = (sure_0/2) / 29.1;
+  time_0 = pulseIn(ECHO_PIN_0, HIGH);
+  distance[0] = (time_0/2) / 29.1;
   
   digitalWrite(TRIGGER_PIN_1, HIGH);
   delayMicroseconds(1000);
   digitalWrite(TRIGGER_PIN_1, LOW);
-  sure_1 = pulseIn(ECHO_PIN_1, HIGH);
-  distance[1] = (sure_1/2) / 29.1;
+  time_1 = pulseIn(ECHO_PIN_1, HIGH);
+  distance[1] = (time_1/2) / 29.1;
   
   digitalWrite(TRIGGER_PIN_2, HIGH);
   delayMicroseconds(1000);
   digitalWrite(TRIGGER_PIN_2, LOW);
-  sure_2 = pulseIn(ECHO_PIN_2, HIGH);
-  distance[2] = (sure_2/2) / 29.1;
+  time_2 = pulseIn(ECHO_PIN_2, HIGH);
+  distance[2] = (time_2/2) / 29.1;
 
   digitalWrite(TRIGGER_PIN_3, HIGH);
   delayMicroseconds(1000);
   digitalWrite(TRIGGER_PIN_3, LOW);
-  sure_3 = pulseIn(ECHO_PIN_3, HIGH);
-  distance[3] = (sure_3/2) / 29.1;
+  time_3 = pulseIn(ECHO_PIN_3, HIGH);
+  distance[3] = (time_3/2) / 29.1;
   
   digitalWrite(TRIGGER_PIN_4, HIGH);
   delayMicroseconds(1000);
   digitalWrite(TRIGGER_PIN_4, LOW);
-  sure_4 = pulseIn(ECHO_PIN_4, HIGH);
-  distance[4] = (sure_4/2) / 29.1;
+  time_4 = pulseIn(ECHO_PIN_4, HIGH);
+  distance[4] = (time_4/2) / 29.1;
 
 }
 
